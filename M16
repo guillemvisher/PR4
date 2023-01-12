@@ -1,0 +1,127 @@
+/ Videojuego1.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
+//
+
+#include <iostream>
+
+using namespace std;
+
+//Hero atributes
+int heroHP = 150;
+int heroDmg;
+string heroName;
+string atacOption;
+bool heroIsAlive = true;
+
+//Enemy1 atributes
+int enemy1Hp = 100;
+int enemyDmg = 15;
+string enemy1Name = "Thanos";
+bool enemy1IsAlive = true;
+
+//Enemy2 atributes
+int enemy2Hp = 120;
+int enemyDmg = 20;
+string enemy2Name = "Sauron";
+bool enemy2IsAlive = true;
+
+//Game atributes
+int punchDmg = 10;
+int swordDmg = 50;
+int magicDmg = 40;
+int magicPoints = 3;
+int enemyChoosed = 0;
+
+void gameStart() {
+	cout << "Wild" << enemy1Name << "has apeared\n";
+	cout << "Introduce your heroe name\n";
+	cin >> heroName;
+	cout << "Your hero name is " << heroName << "\n";
+}
+
+bool checkEnemyStatus1() {
+	if (enemy1Hp <= 0) {
+		cout << "You've defeated" << enemy1Name << "\n";
+		enemy1Hp = 0;
+		return false; 
+	}
+	else {
+		cout << enemy1Name << "has" << enemy1Hp << "HP\n";
+		return true;
+	}
+}
+
+bool checkEnemyStatus2() {
+	if (enemy2Hp <= 0) {
+		cout << "You've defeared" << enemy2Name << "\n";
+		enemy2Hp = 0;
+		return false;
+	}
+	else {
+		cout << enemy2Name << "has" << enemy2Hp << "HP\n";
+		return true;
+	}
+}
+
+int chooseEnemy() {
+	int enemyChoose = 0;
+	while (enemyChoose != 1 && enemyChoose != 2) {
+		cout << "Wich enemy you want to attack? \n";
+		if (enemy1IsAlive) {
+			cout << "1.-" << enemy1Name << "\n";
+		}
+		if (enemy2IsAlive) {
+			cout << "2.-" << enemy2Name << "\n";
+		}
+		cin >> enemyChoose;
+		if (enemyChoose <= 0 || enemyChoose > 2) {
+			cout << "The option you choosed is incorrect. Please, choose a valid option. \n";
+
+		}
+		if (!enemy1IsAlive && enemyChoose == 1) {
+			cout << enemy1Name << "is alreay dead. Please choose an enemy who is still alive." "\n";
+			enemyChoose = 0;
+		}
+		if (!enemy2IsAlive && enemyChoose == 2) {
+			cout << enemy2Name << "is alreay dead. Please choose an enemy who is still alive." "\n";
+			enemyChoose = 0;
+		}
+	}
+	return enemyChoose;
+}
+
+int chooseAttack() {
+	int attackChoose = 0;
+	while (attackChoose != 1 && attackChoose != 2 && attackChoose != 3) {
+		cout << "Wich attack you want to use? \n";
+		cout << "1.- Punch \n";
+		cout << "2.- Sword attack \n";
+			if (magicPoints > 0) {
+				cout << "3.- Magic attack";
+		}
+
+		cin >> attackChoose;
+		if (attackChoose <= 0 || attackChoose > 3) {
+			cout << "The attack selected is not aviable. Please, select a valid option \n";
+		}
+		
+		if (attackChoose == 3) {
+			if (magicPoints > 0) {
+				magicPoints--;
+			}
+			else {
+				attackChoose = 0;
+				cout << "You are too tired to use a magic attack. Please try another attack method.  \n";
+			}
+		}
+
+	}
+	if (attackChoose == 1) {
+		return punchDmg;
+	}
+	else if (attackChoose == 2) {
+		return swordDmg;
+	}
+	else {
+		return magicDmg;
+	}
+}
